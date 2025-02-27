@@ -1,7 +1,12 @@
-// Wrap your code in a function to avoid polluting the global namespace
-(function() {
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
     // Define the target element where you want the typing animation
     var targetElement = document.getElementById('holder'); // Change 'holder' to the actual ID of your target element
+
+    if (!targetElement) {
+        console.error('Element with ID "holder" not found');
+        return;
+    }
 
     // Define the text content you want to type
     var textToType = "Hi, I'm Sachin sharma! I'm a Web Designer & Front-end Developer focused on creating clean, responsive web designs!";
@@ -11,14 +16,8 @@
 
     // Set an interval to add characters at regular intervals
     var typingInterval = setInterval(function() {
-        // Get the current text content of the element
-        var currentText = targetElement.textContent;
-
         // Add the next character to the current text
-        currentText += textToType[currentIndex];
-
-        // Update the text content of the element
-        targetElement.textContent = currentText;
+        targetElement.textContent = textToType.slice(0, currentIndex + 1);
 
         // Move to the next character
         currentIndex++;
@@ -29,17 +28,20 @@
             clearInterval(typingInterval);
         }
     }, 80); // You can adjust the interval to control the typing speed
-})();
-function animateSkillBars() {
-    $(".skillbar clearfix").each(function() {
-      $(this).find(".skillbar-bar").animate({
-        width: $(this).attr("data-percent")
-      }, 2500);
+});
+
+// Wrap jQuery code in document ready function
+$(document).ready(function() {
+    function animateSkillBars() {
+        $(".skillbar.clearfix").each(function() {  // Fixed selector
+            $(this).find(".skillbar-bar").animate({
+                width: $(this).attr("data-percent")
+            }, 2500);
+        });
+    }
+    
+    // Call animateSkillBars when a specific event occurs
+    $("#startAnimationButton").click(function() {
+        animateSkillBars();
     });
-  }
-  
-  // Call animateSkillBars when a specific event occurs, e.g., clicking a button
-  $("#startAnimationButton").click(function() {
-    animateSkillBars();
-  });
-  
+});
